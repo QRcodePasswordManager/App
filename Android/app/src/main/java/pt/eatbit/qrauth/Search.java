@@ -1,4 +1,4 @@
-package pt.eatbit.eatbit;
+package pt.eatbit.qrauth;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import pt.eatbit.eatbit.R;
 
 import static android.view.DragEvent.ACTION_DROP;
 

@@ -1,4 +1,4 @@
-package pt.eatbit.eatbit;
+package pt.eatbit.qrauth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package pt.eatbit.eatbit;
+package pt.eatbit.qrauth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,14 +16,14 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
+
+import pt.eatbit.eatbit.R;
 
 
 public class Login extends AppCompatActivity {

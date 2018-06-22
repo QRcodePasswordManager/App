@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Welcome">
+        <activity android:name="pt.eatbit.qrauth.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,32 +19,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Register"
-            android:parentActivityName=".Welcome">
+            android:name="pt.eatbit.qrauth.Register"
+            android:parentActivityName="pt.eatbit.qrauth.Welcome">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Welcome" />
+                android:value="pt.eatbit.qrauth.Welcome" />
         </activity>
         <activity
-            android:name=".Login"
-            android:parentActivityName=".Welcome">
+            android:name="pt.eatbit.qrauth.Login"
+            android:parentActivityName="pt.eatbit.qrauth.Welcome">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Welcome" />
+                android:value="pt.eatbit.qrauth.Welcome" />
         </activity>
-        <activity android:name=".Search" />
+        <activity android:name="pt.eatbit.qrauth.Search" />
         <activity
-            android:name=".Menu"
-            android:parentActivityName=".Welcome">
+            android:name="pt.eatbit.qrauth.Menu"
+            android:parentActivityName="pt.eatbit.qrauth.Welcome">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Welcome" />
+                android:value="pt.eatbit.qrauth.Welcome" />
         </activity>
 
     </application>

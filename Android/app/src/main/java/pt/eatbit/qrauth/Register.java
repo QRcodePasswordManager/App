@@ -1,4 +1,4 @@
-package pt.eatbit.eatbit;
+package pt.eatbit.qrauth;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import pt.eatbit.eatbit.R;
 
 
 public class Register extends AppCompatActivity {

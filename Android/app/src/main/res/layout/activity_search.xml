@@ -6,7 +6,7 @@
     android:background="#fff"
 
     android:layout_height="match_parent"
-    tools:context="pt.eatbit.eatbit.Search">
+    tools:context="pt.eatbit.eatbit.pt.eatbit.qrauth.Search">
 
     <ImageButton
         android:id="@+id/imageButton"

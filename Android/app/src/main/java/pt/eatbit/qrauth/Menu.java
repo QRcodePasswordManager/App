@@ -1,18 +1,18 @@
-package pt.eatbit.eatbit;
+package pt.eatbit.qrauth;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import pt.eatbit.eatbit.R;
 
 
 public class Menu extends Activity {
