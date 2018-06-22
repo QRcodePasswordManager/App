@@ -1,13 +1,11 @@
 package pt.eatbit.eatbit;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -80,7 +78,7 @@ public class Search extends AppCompatActivity implements View.OnDragListener, Vi
                 }
                 pb.setVisibility(View.VISIBLE);
                 ohbutton.setVisibility(View.INVISIBLE);
-                Intent searchIntent = new Intent(this, Listviews.class);
+                Intent searchIntent = new Intent(this, Menu.class);
                 searchIntent.putExtra("table","first");
                 searchIntent.putExtra("string","second");
                 startActivity(searchIntent);

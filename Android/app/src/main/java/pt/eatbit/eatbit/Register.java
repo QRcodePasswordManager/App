@@ -1,5 +1,6 @@
 package pt.eatbit.eatbit;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,20 +11,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class Register extends AppCompatActivity {
     ProgressBar progressBar2;
     Button register;
-    EditText fname, lname, email, pword;
-
+    EditText fname, lname, email, pword1, pword2;
+    SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = getApplicationContext().getSharedPreferences("prefinfo", MODE_PRIVATE);
+
         setContentView(R.layout.activity_register);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
@@ -31,10 +30,8 @@ public class Register extends AppCompatActivity {
 
         register    = (Button) findViewById(R.id.button2);
 
-        fname       = (EditText) findViewById(R.id.firstname);
-        lname       = (EditText) findViewById(R.id.lastname);
-        email       = (EditText) findViewById(R.id.email);
-        pword       = (EditText) findViewById(R.id.password);
+        pword1       = (EditText) findViewById(R.id.password1);
+        pword2       = (EditText) findViewById(R.id.password2);
 
 
 
@@ -43,13 +40,12 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                String fnames = fname.getText().toString();
-                String lnames = lname.getText().toString();
-                String emails = email.getText().toString();
-                String pwords = pword.getText().toString();
+
+                String p1 = pword1.getText().toString();
+                String p2 = pword2.getText().toString();
 
                 Register.newRegistration newregistration = new Register.newRegistration();
-                newregistration.execute(fnames,lnames,emails,emails,pwords);
+                newregistration.execute(p1, p2);
             }
         });
     }
@@ -78,42 +74,37 @@ public class Register extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params)
         {
-            String firstname    = params[0];
-            String lastname     = params[1];
-            String email        = params[2];
-            String Morada       = params[3];
-            String Password     = params[4];
+            String p1    = params[0];
+            String p2    = params[1];
 
-            if(firstname.trim().equals("")|| lastname.trim().equals(""))
+            if(p1.trim().equals("")|| p2.trim().equals("") )
                 z = "Please fill in all parameters";
+
+            else if(!p1.equals(p2))
+                z = "Passwords must coincide";
+            else if(p1.length() < 4 )
+                z = "Pass at least 4 chars long";
             else
             {
                 try
                 {
-                    MSConnect connection = new MSConnect();
-                    Connection con   = connection.connect();
+                    pref.edit().putString("setup", "true").commit();
+                    pref.edit().remove("code");
+                    //METER PBKDF2.....
+                    pref.edit().putString("code", p1).commit();
 
-                    if (con == null)
+                    String result = pref.getString("code", "0");
+                    if(result != "0")
                     {
-                        z = "Check Your Internet Access!";
+                        z = "Registered successfully";
+                        isSuccess=true;
                     }
                     else
                     {
-                        String query = "INSERT INTO Utilizador (Nome,Email,Morada,Password,Admin) VALUES ('"+ firstname+lastname +"' , '"+ email + "','"+ Morada +"' , '"+ Password +"', 0);";
-                        Statement stmt = con.createStatement();
-                        ResultSet rs = stmt.executeQuery(query);
-                        if(rs.next())
-                        {
-                            z = "Registered successfully";
-                            isSuccess=true;
-                            con.close();
-                        }
-                        else
-                        {
-                            z = "Invalid Credentials!";
-                            isSuccess = false;
-                        }
+                        z = "oops , something went wrong";
+                        isSuccess = false;
                     }
+
                 }
                 catch (Exception ex)
                 {

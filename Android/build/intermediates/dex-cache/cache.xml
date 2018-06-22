@@ -57,6 +57,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/home/sousa/Desktop/uni/Ano4/2/ES/qr-code/App/Android/jtds-1.2.7/jtds-1.2.7.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47f9b00937707c328eccbcdd38867a799ea91b44">
+        <dex dex="/home/sousa/Desktop/uni/Ano4/2/ES/qr-code/App/Android/app/build/intermediates/pre-dexed/debug/jtds-1.2.7_7ee1ad17a8b367c618c63ae46068c5e09651916b.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/home/sousa/.android/build-cache/05bde9463bae4f2d748b1a78a7415f8647e6e5fe/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"

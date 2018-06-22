@@ -1,11 +1,8 @@
 package pt.eatbit.eatbit;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.database.SQLException;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,56 +15,55 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 
 public class Login extends AppCompatActivity {
-    Button      login;
-    EditText    username,password;
+    Button login;
+    EditText username, password;
     ProgressBar progressBar;
-    TextView    register;
-    MSConnect   connection;
-    String un,pass,db,ip;
-
+    TextView register;
+    private boolean busy = false;
+    private SharedPreferences pref;
+    private JSONObject response = null;
+    private String jsonPacket;
+    private List accounts;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //para correr o nosso codigo e nao fazer override do codigo do parent
         super.onCreate(savedInstanceState);
-        connection = new MSConnect();
+        pref = getApplicationContext().getSharedPreferences("prefinfo", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        login       = (Button) findViewById(R.id.button);
-        username    = (EditText) findViewById(R.id.username);
-        password    = (EditText) findViewById(R.id.password);
-        register    = (TextView) findViewById(R.id.register);
+        login = (Button) findViewById(R.id.button);
+        password = (EditText) findViewById(R.id.password);
 
         progressBar.setVisibility(View.GONE);
 
-        login.setOnClickListener(new View.OnClickListener()
-        {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                String usernam = username.getText().toString();
-                String passwordd = password.getText().toString();
-                CheckLogin checkLogin = new CheckLogin();
-                checkLogin.execute(usernam, passwordd);
+            public void onClick(View v) {
+                if(busy == false){
+                    busy = true;
+                    String passwordd = password.getText().toString();
+                    new ValidateLogin(pref, progressBar, passwordd).execute();
+                }else{
+                    return;
+                }
+
             }
         });
 
-        username.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                username.setText("");
-                return false;
-            }
-        });
 
         password.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -80,93 +76,135 @@ public class Login extends AppCompatActivity {
 
     }
 
-
     public void register(View view) {
-        Intent intent   = new Intent(this, Register.class);
+        Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
 
-    public void search(){
-        Intent intent   = new Intent(this, Search.class);
-        finish();
+    public void menu() {
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(this, Menu.class);
+
+        Map<String,?> keys = pref.getAll();
+        keys.remove("setup");
+
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            Log.d("map values",entry.getKey() + ": " +
+                    entry.getValue().toString());
+        }
+        bundle.putSerializable("accounts", (Serializable) keys);
+        intent.putExtras(bundle);
+        //finish();
         startActivity(intent);
+
     }
 
 
-    public class CheckLogin extends AsyncTask<String,String,String>
-    {
-        String z = "";
-        Boolean isSuccess = false;
+    public class ValidateLogin extends AsyncTask<Void, String, String> {
+        private SharedPreferences pref = null;
+        private Boolean isSuccess = false;
+        private ProgressBar progressBar;
+        private String z = "";
+        private TextView message;
+        private String password;
+
+        public ValidateLogin(SharedPreferences e, ProgressBar p, String... params) {
+            this.progressBar = p;
+            this.password = params[0];
+            this.pref = e;
+        }
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected void onPostExecute(String r)
-        {
+        protected void onPostExecute(String r) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(Login.this, r, Toast.LENGTH_SHORT).show();
-            if(isSuccess)
-            {
-                Toast.makeText(Login.this , "Login Successfull" , Toast.LENGTH_LONG).show();
+
+            if (isSuccess) {
+                Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        finish();
-                        search();
+                        //finish();
+                        menu();
                     }
                 }, 1000);
-
+            }else{
+                Toast.makeText(Login.this, "Login failed: "+r, Toast.LENGTH_LONG).show();
             }
+
+            busy = false;
         }
+
         @Override
-        protected String doInBackground(String... params)
-        {
-            String usernam = params[0];
-            String passwordd = params[1];
-            if(usernam.trim().equals("")|| passwordd.trim().equals(""))
+        protected String doInBackground(Void... param) {
+            if (password.trim().equals(""))
                 z = "Please enter Username and Password";
             else
-            {
-                try
-                {
-                    MSConnect connection = new MSConnect();
-                    Connection con   = connection.connect();
+                try {
+                    String value = pref.getString("code", "0");
+                    if (value.equals(password)) {
+                        //fazer dois rounds de pbkdf2 , o primeiro round é privado
+                        pref.edit().putString("www.uminho.pt", "{'username':'admin, 'password':'admin'}").commit();
+                        z = "Login successful";
+                        isSuccess = true;
+                    } else {
+                        z = "Invalid Username!";
+                        isSuccess = false;
+                    }
 
-                    if (con == null)
-                    {
-                        z = "Check Your Internet Access!";
-                    }
-                    else
-                    {
-                        String query = "select * from Utilizador where Email= '" + usernam.toString() + "' and password = '"+ passwordd.toString() +"'  ";
-                        Statement stmt = con.createStatement();
-                        ResultSet rs = stmt.executeQuery(query);
-                        if(rs.next())
-                        {
-                            z = "Login successful";
-                            isSuccess=true;
-                            con.close();
-                        }
-                        else
-                        {
-                            z = "Invalid Credentials!";
-                            isSuccess = false;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     isSuccess = false;
+
                     z = ex.getMessage();
+
                 }
-            }
             return z;
         }
     }
-}
 
+    public class json2List extends Thread {
+        Boolean isSuccess = false;
+        List<Account> accounts;
+        JSONObject jobj;
+        String z = "";
+
+        public json2List(JSONObject r)
+        {
+            this.accounts = new ArrayList<Account>();
+            this.jobj = r;
+        }
+
+        public List getList(){
+            return this.accounts;
+        }
+
+
+        public void run() {
+            try {
+                JSONArray recs = jobj.getJSONArray("acc");
+                Log.d("TAMANHO DO ARRAY", "This is my log message at the debug level here: "+ recs.length());
+
+                for (int i = 0; i < recs.length(); ++i) {
+                    JSONObject rec = recs.getJSONObject(i);
+                    String website  = rec.getString("website");
+                    String tag      = rec.getString("website");
+                    String username = rec.getString("website");
+                    String password = rec.getString("website");
+                    this.accounts.add(new Account(website, tag, username, password));
+                    Log.d("TAMANHO DO ACCOUNTS", "This is my log message at the debug level here: "+ accounts.size());
+
+                }
+
+
+            } catch (Exception ex) {
+                Log.d("create",ex.getMessage());
+                z = ex.getMessage();
+            }
+        }
+    }
+}
 

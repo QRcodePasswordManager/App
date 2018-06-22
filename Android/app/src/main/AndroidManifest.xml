@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login">
+        <activity android:name=".Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,15 +20,32 @@
         </activity>
         <activity
             android:name=".Register"
-            android:parentActivityName=".Login">
+            android:parentActivityName=".Welcome">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Login" />
+                android:value=".Welcome" />
+        </activity>
+        <activity
+            android:name=".Login"
+            android:parentActivityName=".Welcome">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Welcome" />
         </activity>
         <activity android:name=".Search" />
-        <activity android:name=".Listviews"></activity>
+        <activity
+            android:name=".Menu"
+            android:parentActivityName=".Welcome">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Welcome" />
+        </activity>
 
     </application>
 

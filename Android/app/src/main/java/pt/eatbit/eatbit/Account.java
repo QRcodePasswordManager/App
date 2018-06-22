@@ -2,6 +2,7 @@ package pt.eatbit.eatbit;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -13,22 +14,24 @@ import static java.lang.Integer.parseInt;
  * Created by sousa on 09-06-2017.
  */
 
-public class Restaurant {
+public class Account implements Serializable {
 
     int id;
-    String name;
-    String description;
-    String address;
-    String phonenumber;
-    String coord;
-    float rating;
-    String photo;
-    String type;
+    String website;
+    String tag;
+    String username;
+    String password;
 
 
+    public Account (String website, String tag, String username, String password){
+        this.website    = website;
+        this.tag        = tag;
+        this.username   = username;
+        this.password   = password;
+    }
 
     public String getName(){
-        return name;
+        return website;
     }
 
     public int size() {
@@ -44,7 +47,7 @@ public class Restaurant {
     }
 
     @NonNull
-    public Iterator<Restaurant> iterator() {
+    public Iterator<Account> iterator() {
         return null;
     }
 
@@ -58,7 +61,7 @@ public class Restaurant {
         return null;
     }
 
-    public boolean add(Restaurant restaurant) {
+    public boolean add(Account account) {
         return false;
     }
 
@@ -71,11 +74,11 @@ public class Restaurant {
     }
 
 
-    public boolean addAll(@NonNull Collection<? extends Restaurant> c) {
+    public boolean addAll(@NonNull Collection<? extends Account> c) {
         return false;
     }
 
-    public boolean addAll(int index, @NonNull Collection<? extends Restaurant> c) {
+    public boolean addAll(int index, @NonNull Collection<? extends Account> c) {
         return false;
     }
 
@@ -92,21 +95,21 @@ public class Restaurant {
     }
 
 
-    public Restaurant get(int index) {
+    public Account get(int index) {
         return null;
     }
 
-    public Restaurant set(int index, Restaurant element) {
+    public Account set(int index, Account element) {
         return null;
     }
 
 
-    public void add(int index, Restaurant element) {
+    public void add(int index, Account element) {
 
     }
 
 
-    public Restaurant remove(int index) {
+    public Account remove(int index) {
         return null;
     }
 
@@ -121,19 +124,19 @@ public class Restaurant {
     }
 
 
-    public ListIterator<Restaurant> listIterator() {
+    public ListIterator<Account> listIterator() {
         return null;
     }
 
     @NonNull
 
-    public ListIterator<Restaurant> listIterator(int index) {
+    public ListIterator<Account> listIterator(int index) {
         return null;
     }
 
     @NonNull
 
-    public List<Restaurant> subList(int fromIndex, int toIndex) {
+    public List<Account> subList(int fromIndex, int toIndex) {
         return null;
     }
 
@@ -143,45 +146,8 @@ public class Restaurant {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.website = name;
     }
 
-    public void rating(float aFloat) {
-        this.rating = aFloat;
-    }
 
-    public void hours(String string) {
-    }
-
-    public void coord(String string) {
-        this.coord = string;
-    }
-
-    public void phonenumber(String string) {
-        this.phonenumber = string;
-    }
-
-    public void type(String string) {
-        this.type = string;
-    }
-
-    public void image(String string) {
-        this.photo = string;
-    }
-
-    public void addr(String string) {
-        this.address = string;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public String getDesc() {
-        return description;
-    }
-
-    public float getRating() {
-        return rating;
-    }
 }
