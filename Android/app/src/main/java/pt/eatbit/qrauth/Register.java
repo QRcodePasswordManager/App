@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import pt.eatbit.eatbit.R;
-
 
 public class Register extends AppCompatActivity {
     ProgressBar progressBar2;

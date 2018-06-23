@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pt.eatbit.eatbit.pt.eatbit.qrauth.Menu">
+    tools:context="pt.eatbit.qrauth.pt.eatbit.qrauth.Menu">
 
 
     <!-- Header aligned to top -->

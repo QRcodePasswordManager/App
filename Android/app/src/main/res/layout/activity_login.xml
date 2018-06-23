@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F57F00"
-    tools:context="pt.eatbit.eatbit.pt.eatbit.qrauth.Login">
+    tools:context="pt.eatbit.qrauth.pt.eatbit.qrauth.Login">
 
 
      <ImageView

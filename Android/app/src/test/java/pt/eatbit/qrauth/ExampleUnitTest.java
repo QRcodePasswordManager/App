@@ -1,4 +1,4 @@
-package pt.eatbit.eatbit;
+package pt.eatbit.qrauth;
 
 import org.junit.Test;
 
