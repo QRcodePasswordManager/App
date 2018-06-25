@@ -14,6 +14,7 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.main_page);
 
         configureQRCode();
+        configureCredenciais();
     }
 
     private void configureQRCode(){
@@ -22,6 +23,16 @@ public class MainPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainPage.this, QRCode.class));
+            }
+        });
+    }
+
+    private void configureCredenciais(){
+        Button credenciais = (Button)findViewById(R.id.credenciais);
+        credenciais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainPage.this, Credenciais.class));
             }
         });
     }
