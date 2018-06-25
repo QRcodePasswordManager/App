@@ -45,4 +45,16 @@
         android:background="@drawable/logo"
         app:srcCompat="@android:color/transparent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="150dp"
+        android:layout_height="34dp"
+        android:layout_alignStart="@+id/credenciais"
+        android:layout_below="@+id/imageView"
+        android:text="QR Authenticator"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:textAlignment="center"/>
+
 </RelativeLayout>
