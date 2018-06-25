@@ -9,6 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:background="@drawable/background"
     tools:context=".Credenciais">
 
 
@@ -19,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="136dp"
+        android:textStyle="bold"
         android:text="Guardar" />
 
     <EditText
@@ -28,7 +30,9 @@
         android:layout_above="@+id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-230dp"
+        android:textColor="@android:color/background_light"
         android:ems="10"
+        android:textColorHint="@android:color/darker_gray"
         android:hint="Username/Email"
         android:inputType="textPersonName" />
 
@@ -40,6 +44,8 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Website"
+        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@android:color/background_light"
         android:inputType="textPersonName" />
 
     <EditText
@@ -53,7 +59,8 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:visibility="visible"
-        tools:lines="@integer/google_play_services_version" />
+        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@android:color/background_light" />
 
     <EditText
         android:id="@+id/confirmacao"
@@ -63,6 +70,8 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Password"
+        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@android:color/background_light"
         android:inputType="textPassword" />
 
     <TextView
@@ -71,7 +80,7 @@
         android:layout_height="33dp"
         android:layout_alignStart="@+id/username"
         android:layout_below="@+id/confirmacao"
-        android:textColor="@android:color/holo_red_dark" />
+        android:textColor="@android:color/background_light" />
 
     <Button
         android:id="@+id/teste"
@@ -80,6 +89,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="86dp"
+        android:textStyle="bold"
         android:text="teste" />
 
     <Button
@@ -88,6 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:text="Voltar" />
 
 </RelativeLayout>

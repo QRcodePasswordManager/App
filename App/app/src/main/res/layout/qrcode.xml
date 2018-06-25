@@ -9,6 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:background="@drawable/background"
     tools:context=".QRCode">
 
     <SurfaceView
@@ -18,14 +19,16 @@
         android:layout_height="880px" />
 
     <TextView
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:layout_below="@+id/cameraPreview"
         android:id="@+id/txtResult"
-        android:layout_marginTop="20dp"
-        android:text="@string/result_text_default"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cameraPreview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/result_text_default"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/voltar"
@@ -33,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:text="Voltar" />
 
 </RelativeLayout>

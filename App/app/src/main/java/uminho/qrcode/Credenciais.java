@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -76,6 +77,7 @@ public class Credenciais extends AppCompatActivity {
                 else{
                     int res = 0;
                     String web = website.getText().toString();
+
                     if(existeWebsite(web)) {
                         Intent intent = new Intent(Credenciais.this, CredenciaisPopup.class);
                         intent.putExtra("website", web);
@@ -91,7 +93,6 @@ public class Credenciais extends AppCompatActivity {
                             writeToFile(json.toString());
 
                         } catch (JSONException e) {
-                            warning.setText("Erro\n\r");
                         }
                     }
                 }
@@ -114,8 +115,11 @@ public class Credenciais extends AppCompatActivity {
                 writeToFile(json.toString());
 
             } catch (JSONException e) {
-                warning.append("Erro\n");
             }
+            warning.setText("Guardado");
+        }
+        if(resultCode==0){
+            warning.setText("");
         }
     }
 
@@ -125,18 +129,23 @@ public class Credenciais extends AppCompatActivity {
         final List<String> lines = new LinkedList<>();
         final Scanner reader;
         try {
-            reader = new Scanner(new FileInputStream(file), "UTF-8");
-            while(reader.hasNextLine()) {
-                try {
-                    JSONObject testV = new JSONObject(reader.nextLine());
-                    String web = (String)testV.get("website");
-                    if(web.equals(website))
-                        return true;
-                } catch (JSONException e) {
-                    warning.append("Erros\n\r");
+            BufferedReader input = new BufferedReader(new FileReader(file));
+            String line;
+            try {
+                while ((line = input.readLine()) != null) {
+                    try {
+                        JSONObject testV = new JSONObject(line);
+                        String web = testV.optString("website");
+                        if (web.equals(website)) {
+                            return true;
+                        }
+                    } catch (JSONException e) {
+                    }
                 }
+                input.close();
+            } catch(IOException e){
+
             }
-            reader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

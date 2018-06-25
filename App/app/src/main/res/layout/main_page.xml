@@ -9,6 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:background="@drawable/background"
     tools:context=".MainPage">
 
     <Button
@@ -17,7 +18,8 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="203dp"
+        android:layout_marginBottom="94dp"
+        android:textStyle="bold"
         android:text="Credenciais"
         tools:layout_editor_absoluteX="117dp"
         tools:layout_editor_absoluteY="320dp" />
@@ -26,10 +28,21 @@
         android:id="@+id/qrcode"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/credenciais"
+        android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="179dp"
         android:text="QRCode"
         tools:layout_editor_absoluteX="117dp"
         tools:layout_editor_absoluteY="229dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="141dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/credenciais"
+        android:layout_marginTop="67dp"
+        android:background="@drawable/logo"
+        app:srcCompat="@android:color/transparent" />
+
 </RelativeLayout>

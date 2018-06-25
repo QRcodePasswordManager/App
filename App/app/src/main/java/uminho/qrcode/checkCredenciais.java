@@ -32,7 +32,6 @@ public class checkCredenciais extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.check_credenciais);
         val = (TextView)findViewById(R.id.valores);
-        val.setText("Dominio.\tUsername\\Email.\tPassword\n\r");
         readFromFile();
         configureVoltarButton();
 
@@ -69,7 +68,7 @@ public class checkCredenciais extends AppCompatActivity {
                     throw new IOException();
                 }
                 while ((line = input.readLine()) != null) {
-                    val.append(line+"\n\r");
+                    val.append(line+"\n");
                 }
                 input.close();
 

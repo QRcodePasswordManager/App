@@ -18,9 +18,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -29,7 +31,6 @@ import java.util.Scanner;
 
 public class CredenciaisPopup extends AppCompatActivity {
     String webs;
-    TextView warning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,6 @@ public class CredenciaisPopup extends AppCompatActivity {
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        warning = (TextView)findViewById(R.id.warning);
 
         getWindow().setLayout((int) (width), (int)(height));
         configureSimButton();
@@ -53,29 +53,28 @@ public class CredenciaisPopup extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory() +
                 File.separator + "/qrcode/credenciais.txt");
         final List<String> lines = new LinkedList<>();
-        final Scanner reader = new Scanner(new FileInputStream(file), "UTF-8");
-        while(reader.hasNextLine()) {
+        BufferedReader input = new BufferedReader(new FileReader(file));
+        String line;
+        while((line = input.readLine()) != null) {
             try {
-                JSONObject testV = new JSONObject(reader.nextLine());
+                JSONObject testV = new JSONObject(line);
                 String web = testV.optString("website");
                 if(!web.equals(website)) {
-                    lines.add(web);
+                    lines.add(testV.toString());
                 }
             } catch (JSONException e) {
-                warning.append("ErroNovo");
             }
         }
-        reader.close();
+        input.close();
         final BufferedWriter writer = new BufferedWriter(new FileWriter(file, false));
-        for(final String line : lines)
-            writer.write(line);
+        for(String l : lines)
+            writer.write(l);
         writer.flush();
         writer.close();
         return;
     }
 
     public void configureSimButton(){
-        final TextView warning = (TextView)findViewById(R.id.warning);
         final Button sim = (Button)findViewById(R.id.sim);
         sim.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
@@ -84,7 +83,6 @@ public class CredenciaisPopup extends AppCompatActivity {
                     setResult(1);
                     finish();
                 } catch (IOException e) {
-                    warning.append("ErroVelho\n\r");
                 }
             }
         });

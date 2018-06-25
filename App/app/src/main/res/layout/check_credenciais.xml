@@ -9,6 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:background="@drawable/background"
     tools:context=".checkCredenciais">
 
     <TextView
@@ -19,8 +20,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="19dp"
         android:layout_marginTop="86dp"
-        android:text="Nenhuma Credencial Encontrada"
         tools:layout_editor_absoluteX="78dp"
+        android:textColor="@android:color/background_light"
         tools:layout_editor_absoluteY="187dp" />
 
     <Button
@@ -29,5 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:text="Voltar" />
 </RelativeLayout>
