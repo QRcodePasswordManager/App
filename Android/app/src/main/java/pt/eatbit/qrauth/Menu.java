@@ -146,11 +146,10 @@ public class Menu extends Activity {
             if(resultCode == Activity.RESULT_OK){
                 String result = data.getStringExtra("result");
                 try {
-                    Log.d("MENU RESULT ADDED", result);
                     JSONObject tmp = new JSONObject(result);
                     tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
+
                     acc.put(tmp.getString("website"), tmp.toString());
-                    Log.d("hashmap all", acc.toString());
                     adapter.refreshAdapter(acc);
 
                 } catch (JSONException e) {
@@ -167,6 +166,7 @@ public class Menu extends Activity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        //isto nao é garantido que corra, adicionar ao ficheiro sempre que possivel
         SharedPreferences pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
         for(Map.Entry<String,?> entry : acc.entrySet()){
             JSONObject rec = null;
