@@ -2,47 +2,73 @@ package pt.eatbit.qrauth;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 public class Menu extends Activity {
-    ListView listView;
     String table, query;
+    private ImageButton addwebsite, camera;
+    private JSONObject temp;
+    private MyAdapter adapter;
+    private ListView listView;
+    private Map<String, String> acc;
     public List<Account> accounts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listviews);
-        Intent myIntent = getIntent();
 
+        addwebsite  = (ImageButton) findViewById(R.id.imageButton4);
+        camera      = (ImageButton) findViewById(R.id.imageButton3);
+
+        Intent myIntent = getIntent();
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        Map<String, String> acc = (Map<String, String>)bundle.getSerializable("accounts");
+        acc = (Map<String, String>)bundle.getSerializable("accounts");
 
+        addwebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertRecord();
+            }
+        });
 
-
-        MyAdapter adapter = new MyAdapter(acc);
-        ListView listView = (ListView) findViewById(R.id.restaurantlview);
+        adapter = new MyAdapter(acc);
+        listView = (ListView) findViewById(R.id.restaurantlview);
 
         listView.setAdapter(adapter);
+
 
         // ListView Item Click Listener
 
     }
     public class MyAdapter extends BaseAdapter {
-        private final ArrayList mData;
+        private ArrayList mData;
 
         public MyAdapter(Map<String, String> map) {
             mData = new ArrayList();
             mData.addAll(map.entrySet());
+        }
+
+        public void refreshAdapter(Map<String, String> map){
+            mData = new ArrayList();
+            mData.addAll(map.entrySet());
+            this.notifyDataSetChanged();
         }
 
         @Override
@@ -72,7 +98,7 @@ public class Menu extends Activity {
                 result = convertView;
             }
 
-            if(position == 0){
+            if (position == 0) {
                 result.setVisibility(View.GONE);
                 return result;
             }
@@ -82,9 +108,54 @@ public class Menu extends Activity {
             TextView text1 = (TextView) result.findViewById(R.id.item_title);
             text1.setText(item.getKey());
             TextView text2 = (TextView) result.findViewById(R.id.item_desc);
-            text2.setText(item.getValue());
+            TextView text3 = (TextView) result.findViewById(R.id.item_lastmod);
+
+            try {
+                temp = new JSONObject(item.getValue());
+                text2.setText(temp.getString("username"));
+                text3.setText(temp.getString("lastmod"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return result;
+        }
+
+    }
+
+    public void insertRecord(){
+        Intent intent = new Intent(this, NewEntry.class);
+        startActivityForResult(intent, 99);
+    }
+
+    protected void onResume(Bundle savedInstanceState) {
+        listView.setAdapter(adapter);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 99) {
+            if(resultCode == Activity.RESULT_OK){
+                String result = data.getStringExtra("result");
+                try {
+                    Log.d("MENU RESULT ADDED", result);
+                    JSONObject tmp = new JSONObject(result);
+                    JSONObject tmp2 = new JSONObject(acc.get("config"));
+                    tmp.put("password", Cripto.encrypt(tmp2.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
+                    acc.put(tmp.getString("website"), tmp.toString());
+                    Log.d("COCOCOCOCOCOCOCOCOCOCOC", acc.toString());
+                    adapter.refreshAdapter(acc);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
         }
     }
 }

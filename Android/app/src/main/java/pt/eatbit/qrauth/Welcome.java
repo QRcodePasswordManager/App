@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -23,7 +24,7 @@ public class Welcome extends AppCompatActivity {
     EditText username, password;
     ProgressBar progressBar;
     TextView register;
-    private boolean busy = false;
+    private int count = 0;
     private SharedPreferences pref;
     private JSONObject response = null;
     private String jsonPacket;
@@ -33,7 +34,7 @@ public class Welcome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("prefinfo", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
         if(pref.getString("setup", "0").equals("0")){
             Intent intent = new Intent(this, Register.class);
             startActivity(intent);
@@ -44,9 +45,16 @@ public class Welcome extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onResume(){
         super.onResume();
-        finish();
+        count++;
+        if(count == 2){
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+        }else if(count > 2){
+            finish();
+        }
     }
 }

@@ -3,15 +3,6 @@
 
     <item
         is-multidex="false"
-        jar="/home/sousa/AndroidStudioProjects/Eatbit2/jtds-1.2.7/jtds-1.2.7.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="47f9b00937707c328eccbcdd38867a799ea91b44">
-        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/jtds-1.2.7_aab02643ef5d82ab2b9fd950bef9e045a36d40ad.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/home/sousa/.android/build-cache/804f14de5c4202279dccff198eed524080d2d5af/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -57,66 +48,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/home/sousa/Desktop/uni/Ano4/2/ES/qr-code/App/Android/jtds-1.2.7/jtds-1.2.7.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="47f9b00937707c328eccbcdd38867a799ea91b44">
-        <dex dex="/home/sousa/Desktop/uni/Ano4/2/ES/qr-code/App/Android/app/build/intermediates/pre-dexed/debug/jtds-1.2.7_7ee1ad17a8b367c618c63ae46068c5e09651916b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/sousa/.android/build-cache/05bde9463bae4f2d748b1a78a7415f8647e6e5fe/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_722fdeea16209369e1067c9bead2e39074909ea0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/sousa/.android/build-cache/782882d27e7b531a36e4afdde46ebded46b6ab9c/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
-        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_0ac1af84b849c9c1e4ec8e5594a37802245a636c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/sousa/.android/build-cache/41d6cad9856c33fd5abdfe0ba05a84177e6d7495/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
-        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_c32323183012260cea3ee221fe3a669cbbbdd495.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/sousa/.android/build-cache/2b6c520934161464e963af6fe42eeefdb96ebf74/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
-        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_380cf4f9eb65004a5f95a0e70c64aecc12245d80.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/home/sousa/.android/build-cache/5fb15a8166079d2a4e0a3f27c43a888c786a6e3e/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
         <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_ef4e7845d41e62dfed575bf318d09a370d475732.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/sousa/Android/Sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_0b52387c43e4563318d24db5e83d92a5794d7ef6.jar" />
     </item>
     <item
         is-multidex="false"
@@ -153,6 +90,60 @@
         revision="25.0.3"
         sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
         <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_dc33ef8c65fb30c33f88c06477118db5edbc29e8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sousa/AndroidStudioProjects/Eatbit2/jtds-1.2.7/jtds-1.2.7.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47f9b00937707c328eccbcdd38867a799ea91b44">
+        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/jtds-1.2.7_aab02643ef5d82ab2b9fd950bef9e045a36d40ad.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sousa/.android/build-cache/05bde9463bae4f2d748b1a78a7415f8647e6e5fe/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_722fdeea16209369e1067c9bead2e39074909ea0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sousa/.android/build-cache/41d6cad9856c33fd5abdfe0ba05a84177e6d7495/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_c32323183012260cea3ee221fe3a669cbbbdd495.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sousa/.android/build-cache/782882d27e7b531a36e4afdde46ebded46b6ab9c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_0ac1af84b849c9c1e4ec8e5594a37802245a636c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sousa/.android/build-cache/2b6c520934161464e963af6fe42eeefdb96ebf74/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/classes_380cf4f9eb65004a5f95a0e70c64aecc12245d80.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sousa/Android/Sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/home/sousa/AndroidStudioProjects/Eatbit2/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_0b52387c43e4563318d24db5e83d92a5794d7ef6.jar" />
     </item>
 
 </items>

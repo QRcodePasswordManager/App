@@ -36,7 +36,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pt.eatbit.qrauth.Welcome" />
         </activity>
-        <activity android:name="pt.eatbit.qrauth.Search" />
         <activity
             android:name="pt.eatbit.qrauth.Menu"
             android:parentActivityName="pt.eatbit.qrauth.Welcome">
@@ -45,6 +44,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pt.eatbit.qrauth.Welcome" />
+        </activity>
+        <activity
+            android:name="pt.eatbit.qrauth.NewEntry"
+            android:parentActivityName="pt.eatbit.qrauth.Menu">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pt.eatbit.qrauth.Menu" />
+
         </activity>
 
     </application>

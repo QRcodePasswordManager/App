@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Handler;
@@ -19,7 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,7 @@ public class Login extends AppCompatActivity {
     ProgressBar progressBar;
     TextView register;
     private boolean busy = false;
+    private Map<String,String> keys;
     private SharedPreferences pref;
     private JSONObject response = null;
     private String jsonPacket;
@@ -40,12 +45,11 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //para correr o nosso codigo e nao fazer override do codigo do parent
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("prefinfo", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        login = (Button) findViewById(R.id.button);
-        password = (EditText) findViewById(R.id.password);
-
+        login       = (Button) findViewById(R.id.button);
+        password    = (EditText) findViewById(R.id.password);
         progressBar.setVisibility(View.GONE);
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +78,8 @@ public class Login extends AppCompatActivity {
 
     }
 
+
+
     public void register(View view) {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
@@ -82,14 +88,6 @@ public class Login extends AppCompatActivity {
     public void menu() {
         Bundle bundle = new Bundle();
         Intent intent = new Intent(this, Menu.class);
-
-        Map<String,?> keys = pref.getAll();
-        keys.remove("setup");
-
-        for(Map.Entry<String,?> entry : keys.entrySet()){
-            Log.d("map values",entry.getKey() + ": " +
-                    entry.getValue().toString());
-        }
         bundle.putSerializable("accounts", (Serializable) keys);
         intent.putExtras(bundle);
         //finish();
@@ -139,14 +137,43 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... param) {
-            if (password.trim().equals(""))
+            if (this.password.trim().equals(""))
                 z = "Please enter Username and Password";
             else
                 try {
-                    String value = pref.getString("code", "0");
-                    if (value.equals(password)) {
-                        //fazer dois rounds de pbkdf2 , o primeiro round é privado
-                        pref.edit().putString("www.uminho.pt", "{'username':'admin, 'password':'admin'}").commit();
+                    String value        = pref.getString("code", "0");
+                    String salt         = pref.getString("salt", "0");
+                    String iv           = pref.getString("iv", "0");
+                    String securehash   = Cripto.generateStorngPasswordHash(this.password, Cripto.hex2byte(salt));
+                    MessageDigest md    = MessageDigest.getInstance("SHA-256");
+
+
+                    Map <String,?> k = pref.getAll();
+                    k.remove("setup");
+                    k.remove("code");
+                    k.remove("salt");
+                    k.remove("iv");
+
+                    keys = new HashMap<>();
+
+                    for(Map.Entry<String,?> entry : k.entrySet()){
+                        JSONObject rec = new JSONObject(entry.getValue().toString());
+                        keys.put(entry.getKey(),rec.toString());
+                    }
+
+                    md.update(securehash.getBytes());
+                    String secrethash = Cripto.toHex(md.digest());
+
+                    md.update(secrethash.getBytes());
+                    String hash = Cripto.toHex(md.digest());
+
+                    JSONObject config = new JSONObject();
+                    config.put("code", value);
+                    config.put("mk", secrethash);
+                    keys.put("config", config.toString());
+
+                    if (value.equals(hash)) {
+                        pref.edit().putString("www.uminho.pt", "{'username':'admin', 'password':'admin' , 'iv': 'iv', 'lastmod':'13-05-2018' }").commit();
                         z = "Login successful";
                         isSuccess = true;
                     } else {

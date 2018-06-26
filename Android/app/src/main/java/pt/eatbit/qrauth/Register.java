@@ -4,11 +4,16 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.security.DigestException;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 
 
 public class Register extends AppCompatActivity {
@@ -19,7 +24,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("prefinfo", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
 
         setContentView(R.layout.activity_register);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
@@ -67,6 +72,7 @@ public class Register extends AppCompatActivity {
             if(isSuccess)
             {
                 Toast.makeText(Register.this , "Registration Successfull" , Toast.LENGTH_LONG).show();
+                finish();
             }
         }
         @Override
@@ -87,9 +93,21 @@ public class Register extends AppCompatActivity {
                 try
                 {
                     pref.edit().putString("setup", "true").commit();
-                    pref.edit().remove("code");
-                    //METER PBKDF2.....
-                    pref.edit().putString("code", p1).commit();
+                    byte[] salt         = Cripto.getSalt(null);
+                    String securehash   = Cripto.generateStorngPasswordHash(p1, salt);
+                    MessageDigest md    = MessageDigest.getInstance("SHA-256");
+                    md.update(securehash.getBytes());
+                    String secrethash   = Cripto.toHex(md.digest());
+                    md.update(secrethash.getBytes());
+                    String hash         = Cripto.toHex(md.digest());
+
+                    SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+                    byte[] iv = new byte[16];
+                    sr.nextBytes(iv);
+                    pref.edit().putString("iv", Cripto.toHex(iv)).commit();
+                    pref.edit().putString("code", hash).commit();
+                    pref.edit().putString("salt", Cripto.toHex(salt)).commit();
+
 
                     String result = pref.getString("code", "0");
                     if(result != "0")
@@ -113,4 +131,6 @@ public class Register extends AppCompatActivity {
             return z;
         }
     }
+
+
 }
