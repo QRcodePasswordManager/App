@@ -27,6 +27,7 @@ public class Menu extends Activity {
     private MyAdapter adapter;
     private ListView listView;
     private Map<String, String> acc;
+    private JSONObject config;
     public List<Account> accounts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,13 @@ public class Menu extends Activity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         acc = (Map<String, String>)bundle.getSerializable("accounts");
+        try {
+            config = new JSONObject(acc.get("config"));
+            acc.remove("config");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         addwebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,12 +106,10 @@ public class Menu extends Activity {
                 result = convertView;
             }
 
-            if (position == 0) {
-                result.setVisibility(View.GONE);
-                return result;
-            }
 
             Map.Entry<String, String> item = getItem(position);
+
+
 
             TextView text1 = (TextView) result.findViewById(R.id.item_title);
             text1.setText(item.getKey());
@@ -142,10 +148,9 @@ public class Menu extends Activity {
                 try {
                     Log.d("MENU RESULT ADDED", result);
                     JSONObject tmp = new JSONObject(result);
-                    JSONObject tmp2 = new JSONObject(acc.get("config"));
-                    tmp.put("password", Cripto.encrypt(tmp2.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
+                    tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
                     acc.put(tmp.getString("website"), tmp.toString());
-                    Log.d("COCOCOCOCOCOCOCOCOCOCOC", acc.toString());
+                    Log.d("hashmap all", acc.toString());
                     adapter.refreshAdapter(acc);
 
                 } catch (JSONException e) {
