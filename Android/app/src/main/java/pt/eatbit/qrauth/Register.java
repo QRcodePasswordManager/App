@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.security.DigestException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 

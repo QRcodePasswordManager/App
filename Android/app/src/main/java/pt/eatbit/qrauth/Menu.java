@@ -2,7 +2,7 @@ package pt.eatbit.qrauth;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -162,5 +162,21 @@ public class Menu extends Activity {
                 //Write your code if there's no result
             }
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
+        for(Map.Entry<String,?> entry : acc.entrySet()){
+            JSONObject rec = null;
+            try {
+                rec = new JSONObject(entry.getValue().toString());
+                pref.edit().putString(rec.getString("website"), rec.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d("onDestroy", "aqui estamos");
     }
 }
