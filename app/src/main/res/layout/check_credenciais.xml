@@ -9,7 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:background="@drawable/background"
+    android:background="#4e0000"
     tools:context=".checkCredenciais">
 
     <TextView
