@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:layout_marginStart="13dp"
         android:layout_alignBaseline="@+id/textView2"
         android:layout_alignBottom="@+id/textView2"
         android:layout_toEndOf="@+id/textView2" />
@@ -44,9 +45,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
-        android:textStyle="bold"
         android:layout_below="@+id/item_picture"
-        android:layout_toEndOf="@+id/item_picture" />
+        android:layout_toEndOf="@+id/item_picture"
+        android:text="Username:"
+        android:textStyle="bold" />
 
 </RelativeLayout>
