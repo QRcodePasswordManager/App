@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -18,6 +19,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static android.view.View.GONE;
 
 
 public class Menu extends Activity {
@@ -61,6 +64,20 @@ public class Menu extends Activity {
 
         listView.setAdapter(adapter);
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View v, int pos, long id) {
+                ImageButton del     = (ImageButton) v.findViewById(R.id.deletebutton);
+                ImageButton edit    = (ImageButton) v.findViewById(R.id.editbutton);
+                TextView key          = (TextView) v.findViewById(R.id.item_title);
+                del.setVisibility(View.VISIBLE);
+                edit.setVisibility(View.VISIBLE);
+                del.setOnClickListener(new MyListener(v, key.getText().toString(), acc.get(key)));
+
+                return true;
+            }
+        });
+
 
         // ListView Item Click Listener
 
@@ -78,6 +95,9 @@ public class Menu extends Activity {
             mData.addAll(map.entrySet());
             this.notifyDataSetChanged();
         }
+
+
+
 
         @Override
         public int getCount() {
@@ -110,12 +130,14 @@ public class Menu extends Activity {
             Map.Entry<String, String> item = getItem(position);
 
 
-
+            ImageButton del     = (ImageButton)result.findViewById(R.id.deletebutton);
+            ImageButton edit    = (ImageButton) result.findViewById(R.id.editbutton);
             TextView text1 = (TextView) result.findViewById(R.id.item_title);
             text1.setText(item.getKey());
             TextView text2 = (TextView) result.findViewById(R.id.item_desc);
             TextView text3 = (TextView) result.findViewById(R.id.item_lastmod);
-
+            del.setVisibility(View.INVISIBLE);
+            edit.setVisibility(View.INVISIBLE);
             try {
                 temp = new JSONObject(item.getValue());
                 text2.setText(temp.getString("username"));
@@ -125,9 +147,31 @@ public class Menu extends Activity {
                 e.printStackTrace();
             }
 
+
             return result;
         }
 
+
+
+    }
+
+    private class MyListener implements View.OnClickListener{
+        private View v;
+        private String key;
+        private String res;
+
+        public MyListener(View context, String key, String res){
+            v           = context;
+            this.key    = key;
+            this.res    = res;
+        }
+
+        @Override
+        public void onClick(View v){
+            Log.d("LISTERNER", "WOWOWOWOW"+key);
+            acc.remove(key);
+            adapter.refreshAdapter(acc);
+        }
     }
 
     public void insertRecord(){
