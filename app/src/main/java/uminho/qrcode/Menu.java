@@ -221,6 +221,8 @@ public class Menu extends Activity {
         @Override
         public void onClick(View v){
             if(code==0) {
+                pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
+                pref.edit().remove(key).commit();
                 acc.remove(key);
             }else{
                 Log.d("editablerecord1", res);
@@ -273,9 +275,9 @@ public class Menu extends Activity {
                 try {
                     JSONObject tmp = new JSONObject(result);
                     tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
-                    acc.remove(tmp.getString("website"));
-                    pref.edit().remove(tmp.getString("website").toString()).commit();
-                    //acc.put(tmp.getString("website"), tmp.toString());
+                    //acc.remove(tmp.getString("website"));
+                    pref.edit().putString(tmp.getString("website"),tmp.toString()).commit();
+                    acc.put(tmp.getString("website"), tmp.toString());
                     adapter.refreshAdapter(acc);
 
                 } catch (JSONException e) {
