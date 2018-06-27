@@ -169,7 +169,7 @@ public class Login extends AppCompatActivity {
                     keys.put("config", config.toString());
 
                     if (value.equals(hash)) {
-                        pref.edit().putString("www.uminho.pt", "{'username':'admin', 'password':'admin' , 'iv': 'iv', 'lastmod':'13-05-2018' }").commit();
+                        pref.edit().putString("www.uminho.pt", "{'website':'www.uminho.pt','username':'admin', 'password':'admin' , 'iv': 'iv', 'lastmod':'13-05-2018' }").commit();
                         z = "Login successful";
                         isSuccess = true;
                     } else {
@@ -226,6 +226,13 @@ public class Login extends AppCompatActivity {
                 z = ex.getMessage();
             }
         }
+    }
+
+    public void onResume(){
+        super.onResume();
+        password    = (EditText) findViewById(R.id.password);
+        password.setText("dummydu");
+
     }
 }
 

@@ -72,7 +72,8 @@ public class Menu extends Activity {
                 TextView key          = (TextView) v.findViewById(R.id.item_title);
                 del.setVisibility(View.VISIBLE);
                 edit.setVisibility(View.VISIBLE);
-                del.setOnClickListener(new MyListener(v, key.getText().toString(), acc.get(key)));
+                del.setOnClickListener(new MyListener(v, key.getText().toString(), acc.get(key.getText().toString()), 0));
+                edit.setOnClickListener(new MyListener(v, key.getText().toString(), acc.get(key.getText().toString()), 1));
 
                 return true;
             }
@@ -126,9 +127,7 @@ public class Menu extends Activity {
                 result = convertView;
             }
 
-
             Map.Entry<String, String> item = getItem(position);
-
 
             ImageButton del     = (ImageButton)result.findViewById(R.id.deletebutton);
             ImageButton edit    = (ImageButton) result.findViewById(R.id.editbutton);
@@ -159,21 +158,33 @@ public class Menu extends Activity {
         private View v;
         private String key;
         private String res;
+        private int code;
 
-        public MyListener(View context, String key, String res){
+        public MyListener(View context, String key, String res, int code){
             v           = context;
             this.key    = key;
             this.res    = res;
+            this.code   = code;
         }
 
         @Override
         public void onClick(View v){
-            Log.d("LISTERNER", "WOWOWOWOW"+key);
-            acc.remove(key);
+            if(code==0) {
+                acc.remove(key);
+            }else{
+                Log.d("editablerecord1", res);
+                editRecord(key, res);
+            }
+
             adapter.refreshAdapter(acc);
         }
     }
 
+    public void editRecord(String key, String res){
+        Intent intent = new Intent(this, NewEntry.class);
+        intent.putExtra("data", res);
+        startActivityForResult(intent, 98);
+    }
     public void insertRecord(){
         Intent intent = new Intent(this, NewEntry.class);
         startActivityForResult(intent, 99);
@@ -189,10 +200,10 @@ public class Menu extends Activity {
         if (requestCode == 99) {
             if(resultCode == Activity.RESULT_OK){
                 String result = data.getStringExtra("result");
+                Log.d("editrr", result);
                 try {
                     JSONObject tmp = new JSONObject(result);
                     tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
-
                     acc.put(tmp.getString("website"), tmp.toString());
                     adapter.refreshAdapter(acc);
 
@@ -202,7 +213,25 @@ public class Menu extends Activity {
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                //nada a fazer
+            }
+        }else if(requestCode==98){
+            if(resultCode == Activity.RESULT_OK){
+                String result = data.getStringExtra("result");
+                try {
+                    JSONObject tmp = new JSONObject(result);
+                    tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
+                    //acc.remove(tmp.getString("website"));
+                    acc.put(tmp.getString("website"), tmp.toString());
+                    adapter.refreshAdapter(acc);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //nada a fazer
             }
         }
     }
