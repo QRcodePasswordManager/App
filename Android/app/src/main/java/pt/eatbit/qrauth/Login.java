@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //para correr o nosso codigo e nao fazer override do codigo do parent
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("qrcfiles", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         login       = (Button) findViewById(R.id.button);
@@ -163,6 +163,7 @@ public class Login extends AppCompatActivity {
                     md.update(secrethash.getBytes());
                     String hash = Cripto.toHex(md.digest());
 
+
                     JSONObject config = new JSONObject();
                     config.put("code", value);
                     config.put("mk", secrethash);
@@ -228,11 +229,12 @@ public class Login extends AppCompatActivity {
         }
     }
 
+
     public void onResume(){
         super.onResume();
-        password    = (EditText) findViewById(R.id.password);
         password.setText("dummydu");
 
     }
+
 }
 

@@ -23,7 +23,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("qrcfiles", MODE_PRIVATE);
 
         setContentView(R.layout.activity_register);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
