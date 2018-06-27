@@ -30,6 +30,8 @@ public class Menu extends Activity {
     private MyAdapter adapter;
     private ListView listView;
     private Map<String, String> acc;
+    private SharedPreferences pref;
+
     private JSONObject config;
     public List<Account> accounts;
     @Override
@@ -199,12 +201,13 @@ public class Menu extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 99) {
             if(resultCode == Activity.RESULT_OK){
+                pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
                 String result = data.getStringExtra("result");
-                Log.d("editrr", result);
                 try {
                     JSONObject tmp = new JSONObject(result);
                     tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
                     acc.put(tmp.getString("website"), tmp.toString());
+                    pref.edit().putString(tmp.getString("website"),tmp.toString()).commit();
                     adapter.refreshAdapter(acc);
 
                 } catch (JSONException e) {
@@ -222,6 +225,7 @@ public class Menu extends Activity {
                     JSONObject tmp = new JSONObject(result);
                     tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
                     //acc.remove(tmp.getString("website"));
+                    pref.edit().putString(tmp.getString("website"),tmp.toString()).commit();
                     acc.put(tmp.getString("website"), tmp.toString());
                     adapter.refreshAdapter(acc);
 
@@ -240,7 +244,7 @@ public class Menu extends Activity {
     protected void onDestroy(){
         super.onDestroy();
         //isto nao é garantido que corra, adicionar ao ficheiro sempre que possivel
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("qrfilek", MODE_PRIVATE);
         for(Map.Entry<String,?> entry : acc.entrySet()){
             JSONObject rec = null;
             try {

@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //para correr o nosso codigo e nao fazer override do codigo do parent
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("qrcfiles", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         login       = (Button) findViewById(R.id.button);
@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... param) {
             if (this.password.trim().equals(""))
-                z = "Please enter Username and Password";
+                z = "Please enter password";
             else
                 try {
                     String value        = pref.getString("code", "0");
@@ -174,7 +174,7 @@ public class Login extends AppCompatActivity {
                         z = "Login successful";
                         isSuccess = true;
                     } else {
-                        z = "Invalid Username!";
+                        z = "Invalid password!";
                         isSuccess = false;
                     }
 
