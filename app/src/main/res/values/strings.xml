@@ -1,4 +1,73 @@
 <resources>
     <string name="app_name">QR Auth</string>
     <string name="result_text_default">Please focus camera to QR Code</string>
+    <string name="terms_conditions">
+        Termos e Condições de uso\n\n
+Os presentes termos e condições regem a utilização do site e aplicações do QRAuth.\n\n
+
+1. Conteúdo da Aplicação/ Propriedade Intelectual\n\n\n\n
+Entende-se por conteúdos QRAuth toda a informação disponível para o Utilizador disponibilizada
+        através da aplicação QRAuth bem como no site jrsmiguel.me/JavaScript/.\n
+Todos os conteúdos são protegidos por Direitos de Autor ao abrigo da legislação Portuguesa,
+        da União Europeia e dos Tratados Internacionais, não podendo ser utilizados fora das
+        condições de uso livre permitidas por lei, sem o consentimento expresso e escrito do QRAuth.
+
+2. Registo\n\n\n\n
+Nenhuns conteúdos do site e da aplicação do QRAuth são pagos. O utilizador quando se regista na aplicação,
+        concorda em assumir a responsabilidade dos seus dados de login, como o e-mail/username e password.\n\n
+Ao efectuar o registo o utilizador concorda que:\n\n
+O seu registo é pessoal e intransmissível, não podendo ser utilizado por qualquer outra pessoa
+        no acesso aos conteúdos digitais do QRAuth;\n
+Não fará nada que possa lesar o QRAuth, nomeadamente aceder a uma conta não autorizada e respectiva informação;\n
+Entrará de imediato em contacto com o QRAuth, caso se aperceba de qualquer uso não autorizado dos seus dados de login;\n
+Não irá avaliar e testar a vulnerabilidade do sistema e quebrar a segurança instalada.\n\n\n\n
+
+3. Interrupção ou suspensão do acesso\n\n
+O QRAuth, reserva o direito de interromper o acesso ao site e/ou aplicação do QRAuth pelo período
+        que determine como necessário, por quaisquer razões de ordem técnica, administrativa, de força maior
+        ou outras que possam surgir e não estejam directamente aqui contempladas.\n
+Sem prejuízo, o QRAuth, não poderá ser responsabilizado por qualquer suspensão ou interrupção
+        de acesso que venha a ocorrer em consequência de factos que não lhe sejam imputáveis
+        ou que sejam imputáveis a título de mera negligência.\n\n\n\n
+
+4. Publicidade e Patrocínio\n\n
+O site e as aplicações podem conter publicidade e patrocinadores. O QRAuth, ressalva que os anunciantes
+        e os patrocinadores são responsáveis por garantir que o material recebido para inclusão no site
+        ou aplicações está em conformidade com as leis, códigos e regulamentos em vigor. Excluímos qualquer
+        responsabilidade por qualquer erro ou imprecisão que o material publicitário ou de patrocínio possa conter.
+        A relação do utilizador com terceiros elementos através dos serviços da nossa plataforma e quaisquer termos,
+        condições e garantias relativamente a esses terceiros elementos, nomeadamente patrocinadores ou
+        publicitários, são da exclusiva responsabilidade do utilizador e respectivos terceiros. O QRAuth,
+        não se responsabiliza pelas relações acima referidas.\n\n\n\n
+
+5. Protecção de dados\n\n
+5.1 Política de privacidade para QRAuth\n\n
+Todas as suas informações pessoais recolhidas, serão usadas para o ajudar a tornar a sua visita no nosso site
+        o mais produtiva e agradável possível.\n
+A garantia da confidencialidade dos dados pessoais dos utilizadores do nosso site é importante para o QRAuth.\n
+Todas as informações pessoais relativas a membros, assinantes, clientes ou visitantes que usem o QRAuth
+        serão tratadas em concordância com o RGPD.\n
+A informação pessoal recolhida inclui o e-mail/username, password e website.\n
+O uso do QRAuth pressupõe a aceitação deste Acordo de privacidade. A equipa do QRAuth reserva-se
+        ao direito de alterar este acordo sem aviso prévio. Deste modo, recomendamos que consulte
+        a nossa política de privacidade com regularidade de forma a estar sempre atualizado.\n\n\n\n
+5.2 Os anúncios\n\n
+Tal como outros websites, coletamos e utilizamos informação contida nos anúncios. A informação contida
+        nos anúncios, inclui o seu endereço IP (Internet Protocol), o seu ISP (Internet Service Provider,
+        como o Sapo, Clix, ou outro), o browser que utilizou ao visitar o nosso website (como o Internet
+        Explorer ou o Firefox), o tempo da sua visita e que páginas visitou dentro do nosso website.\n\n\n\n
+5.3 Ligações a Sites de terceiros\n\n
+O QRAuth possui ligações para outros sites, os quais, a nosso ver, podem conter informações / \n
+        ferramentas úteis para os nossos visitantes. A nossa política de privacidade não é aplicada
+        a sites de terceiros, pelo que, caso visite outro site a partir do nosso deverá ler a política
+        de privacidade do mesmo.\n
+Não nos responsabilizamos pela política de privacidade ou conteúdo presente nesses mesmos sites.\n\n\n\n
+
+6. Contacto\n
+Para o esclarecimento de qualquer questão relacionada com os presentes termos e condições de utilização
+        do site do QRAuth, o utilizador deverá contactar o QRAuth, para a seguinte morada:\n
+R. da Universidade, 4710-057 Braga\n
+Ou para o email: jose.miranda@devisefutures.com
+
+    </string>
 </resources>

@@ -1,13 +1,11 @@
 package uminho.qrcode;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,35 +14,27 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
 public class Login extends AppCompatActivity {
     Button login;
-    EditText username, password;
+    EditText password;
     ProgressBar progressBar;
-    TextView register;
     private boolean busy = false;
     private Map<String,String> keys;
     private SharedPreferences pref;
-    private JSONObject response = null;
-    private String jsonPacket;
-    private List accounts;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //para correr o nosso codigo e nao fazer override do codigo do parent
         super.onCreate(savedInstanceState);
-        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         login       = (Button) findViewById(R.id.button);
@@ -76,6 +66,7 @@ public class Login extends AppCompatActivity {
 
 
     }
+
 
     public void menu() {
         Bundle bundle = new Bundle();
@@ -140,7 +131,7 @@ public class Login extends AppCompatActivity {
                     MessageDigest md    = MessageDigest.getInstance("SHA-256");
 
 
-                    Map <String,?> k = pref.getAll();
+                    Map<String,?> k = pref.getAll();
                     k.remove("setup");
                     k.remove("code");
                     k.remove("salt");
@@ -184,11 +175,12 @@ public class Login extends AppCompatActivity {
         }
     }
 
+
     public void onResume(){
         super.onResume();
-        password    = (EditText) findViewById(R.id.password);
         password.setText("dummydu");
 
     }
+
 }
 

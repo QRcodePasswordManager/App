@@ -1,10 +1,15 @@
 package uminho.qrcode;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -20,14 +25,67 @@ public class Register extends AppCompatActivity {
     ProgressBar progressBar2;
     Button register;
     Intent returnIntent;
-    EditText fname, lname, email, pword1, pword2;
+    EditText email, pword1, pword2;
     SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        new AlertDialog.Builder(this)
+                .setTitle("License agreement")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            //Request permission
+                            ActivityCompat.requestPermissions(Register.this,
+                                    new String[]{Manifest.permission.CAMERA}, 1);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
+                            //Request permission
+                            ActivityCompat.requestPermissions(Register.this,
+                                    new String[]{Manifest.permission.VIBRATE}, 2);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            //Request permission
+                            ActivityCompat.requestPermissions(Register.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            //Request permission
+                            ActivityCompat.requestPermissions(Register.this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 4);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+                            //Request permission
+                            ActivityCompat.requestPermissions(Register.this,
+                                    new String[]{Manifest.permission.INTERNET}, 5);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+                            //Request permission
+                            ActivityCompat.requestPermissions(Register.this,
+                                    new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 2);
+                            return;
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+                    }
+                })
+                .setMessage(R.string.terms_conditions)
+                .show();
+
         pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
 
-        setContentView(R.layout.activity_register);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
         returnIntent = new Intent();
 

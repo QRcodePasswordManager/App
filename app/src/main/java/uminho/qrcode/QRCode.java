@@ -5,20 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.os.Vibrator;
-import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -26,17 +20,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Network;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.vision.CameraSource;
@@ -46,38 +37,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-
-import java.security.cert.CertificateFactory;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 public class QRCode extends AppCompatActivity {
 
@@ -127,10 +87,6 @@ public class QRCode extends AppCompatActivity {
 
         cameraPreview = (SurfaceView) findViewById(R.id.cameraPreview);
 
-
-
-        txtResult = (TextView) findViewById(R.id.txtResult);
-
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
@@ -179,31 +135,20 @@ public class QRCode extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> qrcodes = detections.getDetectedItems();
                 if(qrcodes.size() != 0){
-                    txtResult.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ConnectivityManager connectivityManager
-                                    = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-                            if(activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-
-                                String now = qrcodes.valueAt(0).displayValue;
-                                if (!last.equals(now)) {
-
-                                    //Create vibrate
-                                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                    vibrator.vibrate(1000);
-                                    last = qrcodes.valueAt(0).displayValue;
-                                    httpget(last);
-                                    //
-                                }
-
-                            }
-                            else{
-                                txtResult.setText("No Network Access");
-                            }
+                    ConnectivityManager connectivityManager
+                            = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if(activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                        String now = qrcodes.valueAt(0).displayValue;
+                        if (!last.equals(now)) {
+                            //Create vibrate
+                            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                            vibrator.vibrate(1000);
+                            last = qrcodes.valueAt(0).displayValue;
+                            httpget(last);
+                            //
                         }
-                    });
+                    }
                 }
             }
         });
@@ -242,16 +187,20 @@ public class QRCode extends AppCompatActivity {
                                     returnIntent.putExtra("dominio", dominio);
                                     returnIntent.putExtra("id", id);
                                     setResult(Activity.RESULT_OK,returnIntent);
-                                    txtResult.setText("Lido com sucesso");
+                                    finish();
                                 } catch (JSONException e) {
-                                    txtResult.append("Dados recebidos não são JSON");
+                                    Intent returnIntent = new Intent();
+                                    setResult(2,returnIntent);
+                                    finish();
                                 }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                txtResult.append("Erro a aceder à página");
+                                Intent returnIntent = new Intent();
+                                setResult(3,returnIntent);
+                                finish();
                             }
                         });
 

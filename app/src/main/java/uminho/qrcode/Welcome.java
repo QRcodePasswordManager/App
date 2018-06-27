@@ -21,16 +21,11 @@ import java.util.List;
 
 
 public class Welcome extends AppCompatActivity {
-    Button login;
-    EditText username, password;
+    EditText password;
     ProgressBar progressBar;
-    TextView register;
-    private boolean first, resume = false;
+    private boolean first = false;
     private int count = 0;
     private SharedPreferences pref;
-    private JSONObject response = null;
-    private String jsonPacket;
-    private List accounts;
 
 
     @Override

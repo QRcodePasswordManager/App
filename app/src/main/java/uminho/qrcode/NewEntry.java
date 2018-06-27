@@ -16,10 +16,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by sousa on 26-06-2018.
- */
-
 public class NewEntry extends AppCompatActivity {
     private String result;
     private EditText website, username, password;

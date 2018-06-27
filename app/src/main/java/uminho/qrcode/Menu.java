@@ -31,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -56,17 +57,16 @@ import javax.crypto.NoSuchPaddingException;
 
 
 public class Menu extends Activity {
-    String table, query;
+    String table;
     private ImageButton addwebsite, camera;
+    private TextView warning;
     private JSONObject temp;
     private MyAdapter adapter;
     private ListView listView;
     private Map<String, String> acc;
     private SharedPreferences pref;
     RequestQueue queue;
-
     private JSONObject config;
-    public List<Account> accounts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +74,8 @@ public class Menu extends Activity {
 
         addwebsite  = (ImageButton) findViewById(R.id.imageButton4);
         camera      = (ImageButton) findViewById(R.id.imageButton9);
+        warning = (TextView) findViewById(R.id.warning);
 
-        Intent myIntent = getIntent();
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         acc = (Map<String, String>)bundle.getSerializable("accounts");
@@ -86,25 +86,27 @@ public class Menu extends Activity {
             e.printStackTrace();
         }
 
+
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
         queue = new RequestQueue(cache, network);
         queue.start();
-
-        final Intent inte = new Intent(Menu.this, QRCode.class);
-
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(inte, 111);
-            }
-        });
 
 
         addwebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 insertRecord();
+            }
+        });
+
+        final Intent inte = new Intent(Menu.this, QRCode.class);
+
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(inte, 111);
             }
         });
 
@@ -246,9 +248,9 @@ public class Menu extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
         if (requestCode == 99) {
             if(resultCode == Activity.RESULT_OK){
-                pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
                 String result = data.getStringExtra("result");
                 try {
                     JSONObject tmp = new JSONObject(result);
@@ -271,9 +273,9 @@ public class Menu extends Activity {
                 try {
                     JSONObject tmp = new JSONObject(result);
                     tmp.put("password", Cripto.encrypt(config.getString("mk"), tmp.getString("iv"), tmp.getString("password")));
-                    //acc.remove(tmp.getString("website"));
-                    pref.edit().putString(tmp.getString("website"),tmp.toString()).commit();
-                    acc.put(tmp.getString("website"), tmp.toString());
+                    acc.remove(tmp.getString("website"));
+                    pref.edit().remove(tmp.getString("website").toString()).commit();
+                    //acc.put(tmp.getString("website"), tmp.toString());
                     adapter.refreshAdapter(acc);
 
                 } catch (JSONException e) {
@@ -288,10 +290,16 @@ public class Menu extends Activity {
         else if (requestCode == 111) {
 
             if (resultCode ==  Activity.RESULT_OK) {
+                Log.d("TAG!", "OLAAAAAA");
                 String dom = data.getStringExtra("dominio");
                 String key = data.getStringExtra("key");
                 String id = data.getStringExtra("id");
+                Log.d("TAG!", "OLAAAAAA2");
                 httppost(key, id, dom);
+            } else if(resultCode ==  2){
+                warning.setText("Sessão não iniciada");
+            } else if(resultCode == 3){
+                warning.setText("Error Volley");
             }
         }
     }
@@ -300,7 +308,7 @@ public class Menu extends Activity {
     protected void onDestroy(){
         super.onDestroy();
         //isto nao é garantido que corra, adicionar ao ficheiro sempre que possivel
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("qrfilek", MODE_PRIVATE);
         for(Map.Entry<String,?> entry : acc.entrySet()){
             JSONObject rec = null;
             try {
@@ -321,75 +329,84 @@ public class Menu extends Activity {
                 String url = "http://10.0.2.2:8081/session/"+id;
                 JSONObject jsonBody = new JSONObject();
                 try {
-                    JSONObject aux = new JSONObject(acc.get(dom));
-
-                    String user = aux.getString("user");
-                    String key = aux.getString("key");
-                    jsonBody.put("hidden_user", RSAEncrypt(key, user));
-                    jsonBody.put("hidden_password", RSAEncrypt(key, key));
+                    if(acc.containsKey(dom) != false){
+                        JSONObject aux = new JSONObject(acc.get(dom));
+                        String user = aux.getString("username");
+                        String pass = Cripto.decrypt(config.getString("mk"), aux.getString("iv"), aux.getString("password"));
+                        Log.d("Teste", key);
+                        jsonBody.put("hidden_user", RSAEncrypt(key, user));
+                        jsonBody.put("hidden_password", RSAEncrypt(key, pass));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                final String requestBody = jsonBody.toString();
+                if(acc.containsKey(dom) != false) {
+                    final String requestBody = jsonBody.toString();
 
+                    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    // response
+                                    if(response.equals("200")){
+                                        warning.setText("Success");
+                                    }
+                                    else{
+                                        warning.setText("Conectivity Failed");
+                                    }
 
-
-
-                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-
-                                Log.d("Response", response.toString());
+                                    Log.d("Response", response.toString());
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d("ERROR", "error => " + error.toString());
+                                }
                             }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("ERROR","error => "+error.toString());
+                    ) {
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return requestBody == null ? null : requestBody.getBytes("utf-8");
+                            } catch (UnsupportedEncodingException uee) {
+                                Log.d("Encoding", uee.toString());
+                                return null;
                             }
                         }
-                ) {
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return requestBody == null ? null : requestBody.getBytes("utf-8");
-                        } catch (UnsupportedEncodingException uee) {
-                            Log.d("Encoding", uee.toString());
-                            return null;
+
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
                         }
-                    }
 
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/json; charset=utf-8";
-                    }
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Content-Type", "application/json");
+                            Log.d("headers", "header");
 
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String>  params = new HashMap<String, String>();
-                        params.put("Content-Type", "application/json");
-                        Log.d("headers", "header");
-
-                        return params;
-                    }
-
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        String responseString = "";
-                        if (response != null) {
-                            responseString = String.valueOf(response.statusCode);
-                            // can get more details such as response.headers
+                            return params;
                         }
-                        Log.d("ResponseNetwork", "ola");
-                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                    }
-                };
 
-                queue.add(postRequest);
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            String responseString = "";
+                            if (response != null) {
+                                responseString = String.valueOf(response.statusCode);
+                                // can get more details such as response.headers
+                            }
+                            Log.d("ResponseNetwork", "ola");
+                            return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                        }
+                    };
+
+                    queue.add(postRequest);
+                }
+                else {
+                    warning.setText("Credenciais Inexistentes");
+                }
+
             }
         };
         sendHttpResponseThread.start();
@@ -465,4 +482,5 @@ public class Menu extends Activity {
 
     }
 }
+
 

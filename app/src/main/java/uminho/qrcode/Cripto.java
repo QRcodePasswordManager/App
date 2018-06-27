@@ -14,10 +14,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by sousa on 25-06-2018.
- */
-
 public class Cripto {
 
     public static String generateStorngPasswordHash(String password, byte[] salts) throws NoSuchAlgorithmException, InvalidKeySpecException
@@ -42,10 +38,6 @@ public class Cripto {
     public static byte[] getSalt(byte[] salts) throws NoSuchAlgorithmException
     {
         if(salts == null ){
-            /*SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            byte[] salt = new byte[16];
-            sr.nextBytes(salt);
-            */
             return "salt".getBytes();
         }else{
             return "salt".getBytes();

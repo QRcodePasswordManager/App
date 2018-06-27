@@ -30,9 +30,6 @@
             android:value="barcode" />
 
         <activity android:name=".QRCode" />
-        <activity android:name=".Credenciais" />
-        <activity android:name=".checkCredenciais" />
-        <activity android:name=".CredenciaisPopup"/>
         <activity android:name=".Register"/>
         <activity android:name=".Login"/>
         <activity android:name=".Menu"/>
