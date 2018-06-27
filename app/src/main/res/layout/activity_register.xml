@@ -37,11 +37,11 @@
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441"
+        app:layout_constraintVertical_bias="0.586"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
@@ -59,11 +59,11 @@
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.533"
+        app:layout_constraintVertical_bias="0.716"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
@@ -72,7 +72,7 @@
         android:id="@+id/button2"
         android:layout_width="212dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="190dp"
+        android:layout_marginBottom="80dp"
         android:text="REGISTER"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -85,5 +85,21 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="458dp" />
+        tools:layout_editor_absoluteY="503dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="180dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="416dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="QRAuth"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
