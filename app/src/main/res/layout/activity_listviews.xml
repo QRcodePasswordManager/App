@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu">
+    tools:context="pt.eatbit.qrauth.pt.eatbit.qrauth.Menu">
 
 
     <!-- Header aligned to top -->
@@ -25,10 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="62dp"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:background="#FC9"
         android:gravity="center"
         android:visibility="visible"
@@ -49,7 +47,7 @@
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:background="#00000000"
             android:src="@mipmap/camera"
@@ -60,11 +58,12 @@
             android:id="@+id/imageButton4"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="0dp"
             android:background="#00000000"
             android:src="@mipmap/plus"
-            app:srcCompat="@mipmap/plus"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true" />
+            app:srcCompat="@mipmap/plus" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

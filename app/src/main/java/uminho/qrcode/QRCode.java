@@ -1,7 +1,9 @@
 package uminho.qrcode;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -234,7 +236,13 @@ public class QRCode extends AppCompatActivity {
                                     }
                                     JSONObject testV = new JSONObject(response);
                                     String key = testV.getString("client_key");
-                                    httppost(key, id);
+                                    String dominio = testV.getString("domain");
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("key", key);
+                                    returnIntent.putExtra("dominio", dominio);
+                                    returnIntent.putExtra("id", id);
+                                    setResult(Activity.RESULT_OK,returnIntent);
+                                    txtResult.setText("Lido com sucesso");
                                 } catch (JSONException e) {
                                     txtResult.append("Dados recebidos não são JSON");
                                 }
@@ -254,153 +262,7 @@ public class QRCode extends AppCompatActivity {
 
     }
 
-    private void httppost(final String key, final String id) {
 
-        Thread sendHttpResponseThread = new Thread() {
-            @Override
-            public void run() {
-                String url = "http://10.0.2.2:8081/session/"+id;
-                JSONObject jsonBody = new JSONObject();
-                try {
-                    jsonBody.put("hidden_user", RSAEncrypt(key, "user"));
-                    jsonBody.put("hidden_password", RSAEncrypt(key, "Encrypt"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                final String requestBody = jsonBody.toString();
-
-
-
-
-                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                txtResult.append("ola" + response.toString());
-                                Log.d("Response", response.toString());
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("ERROR","error => "+error.toString());
-                            }
-                        }
-                ) {
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        try {
-                            return requestBody == null ? null : requestBody.getBytes("utf-8");
-                        } catch (UnsupportedEncodingException uee) {
-                            Log.d("Encoding", uee.toString());
-                            return null;
-                        }
-                    }
-
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/json; charset=utf-8";
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String>  params = new HashMap<String, String>();
-                        params.put("Content-Type", "application/json");
-                        Log.d("headers", "header");
-
-                        return params;
-                    }
-
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        String responseString = "";
-                        if (response != null) {
-                            responseString = String.valueOf(response.statusCode);
-                            // can get more details such as response.headers
-                        }
-                        Log.d("ResponseNetwork", "ola");
-                        return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                    }
-                };
-
-                queue.add(postRequest);
-            }
-        };
-        sendHttpResponseThread.start();
-
-    }
-
-    public String RSAEncrypt (String key, final String plain)
-    {
-        Cipher cipher = null;
-        BufferedReader pemReader = null;
-        try {
-            pemReader = new BufferedReader(new InputStreamReader(
-                        new ByteArrayInputStream(key.getBytes("UTF-8"))));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        StringBuffer content = new StringBuffer();
-        String line = null;
-        try {
-            while ((line = pemReader.readLine()) != null) {
-                if (line.indexOf("-----BEGIN PUBLIC KEY-----") != -1) {
-                    while ((line = pemReader.readLine()) != null) {
-                        if (line.indexOf("-----END PUBLIC KEY") != -1) {
-                            break;
-                        }
-                        content.append(line.trim());
-                    }
-                    break;
-                }
-            }
-        }catch(IOException e){
-
-        }
-
-        KeyFactory keyFactory = null;
-        try {
-            keyFactory = KeyFactory.getInstance("RSA");
-        } catch (NoSuchAlgorithmException e) {
-            Log.d("algorith", "Error");
-        }
-        PublicKey publickey = null;
-        try {
-            publickey = keyFactory.generatePublic(new X509EncodedKeySpec(Base64.decode(content.toString(), Base64.DEFAULT)));
-        } catch (InvalidKeySpecException e) {
-            Log.d("Key", "Error");
-        }
-
-        try {
-            cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
-        } catch (NoSuchAlgorithmException e) {
-            Log.d("Algorithm", "Error");
-        } catch (NoSuchProviderException e) {
-            Log.d("Provider", "Error");
-        } catch (NoSuchPaddingException e) {
-            Log.d("Padding", "Error");
-        }
-        try {
-            cipher.init(Cipher.ENCRYPT_MODE, publickey);
-        } catch (InvalidKeyException e) {
-            Log.d("Key2", "Error");
-        }
-        String dec = null;
-        try {
-            dec = Base64.encodeToString(cipher.doFinal(plain.getBytes()), Base64.DEFAULT);
-        } catch (IllegalBlockSizeException e) {
-            Log.d("Block", "Error");
-        } catch (BadPaddingException e) {
-            Log.d("Padding", "Error");
-        }
-        Log.d("keykeykey", dec);
-        return dec;
-
-    }
 
 
 }

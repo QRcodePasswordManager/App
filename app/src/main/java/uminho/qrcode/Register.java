@@ -1,5 +1,7 @@
 package uminho.qrcode;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,15 +19,17 @@ import java.security.SecureRandom;
 public class Register extends AppCompatActivity {
     ProgressBar progressBar2;
     Button register;
+    Intent returnIntent;
     EditText fname, lname, email, pword1, pword2;
     SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        pref = getApplicationContext().getSharedPreferences("qrfile", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("file009", MODE_PRIVATE);
 
+        setContentView(R.layout.activity_register);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
+        returnIntent = new Intent();
 
         progressBar2.setVisibility(View.GONE);
 
@@ -70,7 +74,12 @@ public class Register extends AppCompatActivity {
             if(isSuccess)
             {
                 Toast.makeText(Register.this , "Registration Successfull" , Toast.LENGTH_LONG).show();
+                returnIntent.putExtra("first","true");
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
+            }else{
+                returnIntent.putExtra("first","false");
+                setResult(Activity.RESULT_OK,returnIntent);
             }
         }
         @Override
@@ -129,6 +138,4 @@ public class Register extends AppCompatActivity {
             return z;
         }
     }
-
-
 }

@@ -1,5 +1,6 @@
 package uminho.qrcode;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -129,7 +130,7 @@ public class Login extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... param) {
             if (this.password.trim().equals(""))
-                z = "Please enter Username and Password";
+                z = "Please enter password";
             else
                 try {
                     String value        = pref.getString("code", "0");
@@ -139,7 +140,7 @@ public class Login extends AppCompatActivity {
                     MessageDigest md    = MessageDigest.getInstance("SHA-256");
 
 
-                    Map<String,?> k = pref.getAll();
+                    Map <String,?> k = pref.getAll();
                     k.remove("setup");
                     k.remove("code");
                     k.remove("salt");
@@ -158,17 +159,18 @@ public class Login extends AppCompatActivity {
                     md.update(secrethash.getBytes());
                     String hash = Cripto.toHex(md.digest());
 
+
                     JSONObject config = new JSONObject();
                     config.put("code", value);
                     config.put("mk", secrethash);
                     keys.put("config", config.toString());
 
                     if (value.equals(hash)) {
-                        pref.edit().putString("www.uminho.pt", "{'username':'admin', 'password':'admin' , 'iv': 'iv', 'lastmod':'13-05-2018' }").commit();
+                        pref.edit().putString("www.uminho.pt", "{'website':'www.uminho.pt','username':'admin', 'password':'admin' , 'iv': 'iv', 'lastmod':'13-05-2018' }").commit();
                         z = "Login successful";
                         isSuccess = true;
                     } else {
-                        z = "Invalid Username!";
+                        z = "Invalid password!";
                         isSuccess = false;
                     }
 
@@ -180,6 +182,13 @@ public class Login extends AppCompatActivity {
                 }
             return z;
         }
+    }
+
+    public void onResume(){
+        super.onResume();
+        password    = (EditText) findViewById(R.id.password);
+        password.setText("dummydu");
+
     }
 }
 

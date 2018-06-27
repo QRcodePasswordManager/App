@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <ImageView
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:layout_below="@+id/item_title"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignEnd="@+id/editbutton" />
 
     <TextView
         android:id="@+id/textView2"
@@ -49,5 +50,30 @@
         android:layout_toEndOf="@+id/item_picture"
         android:text="Username:"
         android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/editbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/item_title"
+        android:layout_marginEnd="11dp"
+        android:background="#00000000"
+        android:src="@android:drawable/ic_menu_edit"
+        android:visibility="invisible"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/deletebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignTop="@+id/item_title"
+        android:layout_marginEnd="11dp"
+        android:layout_toStartOf="@+id/editbutton"
+        android:background="#00000000"
+        android:src="@android:drawable/ic_menu_delete"
+        android:visibility="invisible"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </RelativeLayout>

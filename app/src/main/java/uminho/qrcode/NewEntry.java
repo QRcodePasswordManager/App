@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,22 +24,49 @@ public class NewEntry extends AppCompatActivity {
     private String result;
     private EditText website, username, password;
     private Button confirm, cancel;
-    private JSONObject tmp;
+    private JSONObject tmp, jsondata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newentry);
         Intent returnIntent = new Intent();
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        String data;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                data= null;
+            } else {
+                data= extras.getString("data");
+            }
+        } else {
+            data= (String) savedInstanceState.getSerializable("data");
+        }
+
         website     = (EditText) findViewById(R.id.websitet);
         username    = (EditText) findViewById(R.id.usernamet);
         password    = (EditText) findViewById(R.id.usernamet);
         confirm     = (Button) findViewById(R.id.confirm);
         cancel      = (Button) findViewById(R.id.cancel);
+        tmp         = new JSONObject();
 
-        tmp = new JSONObject();
+        if(data!=null){
+            try {
+                jsondata = new JSONObject(data);
+                EditText editText = (EditText)findViewById(R.id.usernamet);
+                editText.setText(jsondata.getString("username"), TextView.BufferType.EDITABLE);
+                EditText editText1 = (EditText)findViewById(R.id.websitet);
+                editText1.setText(jsondata.getString("website"), TextView.BufferType.EDITABLE);
+                editText1.setInputType(0);
+                EditText editText2 = (EditText)findViewById(R.id.passwordt);
+                editText2.setText(jsondata.getString("password"), TextView.BufferType.EDITABLE);
 
-
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +90,7 @@ public class NewEntry extends AppCompatActivity {
                 finish();
             }
         });
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
